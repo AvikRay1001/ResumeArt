@@ -156,7 +156,17 @@ const deleteResume = async(req,res) => {
         if(fs.existsSync(oldProfile)) fs.unlinkSync(oldProfile);
        }
 
-       
+       const deleted = await Resume.findOneAndDelete({
+            _id: req.params.id,
+            userId: req.user._id,
+       });
+
+       if(!deleted){
+        return res.status(404).json({message: "Resume not found or unauthorized"});
+       }
+
+       res.json({message: "Resume deleted successfully"});
+
     } catch (error) {
         res.status(500).json({message: "Failed to create resume", error: error.message})
     }

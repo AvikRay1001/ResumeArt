@@ -7,7 +7,7 @@ const {
     deleteResume
 } = require('../controllers/resumeController');
 const { protect } = require('../middlewares/authMiddleware');
-// const {uploadResumeImages} = require("../controllers/uploadImages");
+const {uploadResumeImages} = require("../controllers/uploadImages");
 
 const router = express.Router();
 
@@ -15,7 +15,7 @@ router.post("/", protect, createResume);
 router.get("/", protect, getUserResumes);
 router.get("/:id", protect, getResumeById);
 router.put("/:id", protect, updateResume);
-// router.put("/:id/upload-image", protect, uploadResumeImages);
+router.put("/:id/upload-image", protect, uploadResumeImages);
 
 router.delete("/:id", protect, deleteResume);
 
