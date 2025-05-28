@@ -5,26 +5,36 @@ import Login from './Auth/Login'
 import Signup from './Auth/Signup'
 import { useState } from 'react'
 import Modal from '../components/Modal'
+import { UserContext } from '../context/userContext'
+import ProfileInfoCard from '../components/Cards/ProfileInfoCard'
+import { useContext } from 'react'
 
 const LandingPage = () => {
+  const {user} = useContext(UserContext);
   const navigate = useNavigate();
 
   const [openAuthModal, setopenAuthModal] = useState(false);
   const [currentPage, setcurrentPage] = useState("login");
 
-  const handleCTA = () => {};
+  const handleCTA = () => {
+    if(!user){
+      setopenAuthModal(true);
+    }  else {
+      navigate("/dashboard");
+    }
+  };
 
   return(
     <div className='w-full min-h-full bg-white'>
       <div className='container mx-auto px-4 py-6'>
         <header className='flex justify-between items-center mb-16'>
           <div className='text-xl font-bold'>ResumeArt</div>
-          <button
+          {user ? <ProfileInfoCard/> : <button
             className='bg-blue-100 text-sm font-semibold text-black px-7 py-2.5 rounded-lg hover:bg-gray-800 hover:text-white transition-colors cursor-pointer'
             onClick={() => setopenAuthModal(true)}
           >
             Login / Sign Up
-          </button>
+          </button>}
         </header>
 
 
