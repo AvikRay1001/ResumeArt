@@ -3,7 +3,7 @@ export const validateEmail = (email) => {
     return re.test(email);
 };
 
-export const getLightColorImage = (imageUrl) => {
+export const getLightColorFromImage = (imageUrl) => {
     return new Promise((resolve, reject) => {
         if(!imageUrl || typeof imageUrl !== 'string') {
             return reject(new Error('Invalid image URL'));

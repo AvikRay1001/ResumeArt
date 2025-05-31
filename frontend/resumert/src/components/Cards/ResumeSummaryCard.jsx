@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react'
-import { getLightColorFromImage } from '../../utils/helper'
+import {getLightColorFromImage} from '../../utils/helper'
 
 const ResumeSummaryCard = ({imgUrl, title, lastUpdated, onSelect}) => {
     const [bgColor, setbgColor] = useState('#fffffff');

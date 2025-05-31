@@ -7,6 +7,8 @@ import DashboardLayout from '../../components/layouts/DashboardLayout'
 import {LuCirclePlus} from 'react-icons/lu';
 import moment from 'moment';
 import ResumeSummaryCard from "./../../components/Cards/ResumeSummaryCard";
+import CreateResumeForm from './../../../src/pages/Home/CreateResumeForm';
+import Modal from './../../../src/components/Modal';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -56,6 +58,18 @@ const Dashboard = () => {
           />
         ))}
       </div>
+
+      <Modal
+        isOpen={openCreateModal}
+        onClose={() => {
+          setopenCreateModal(false)
+        }}
+        hideHeader
+      >
+        <div>
+          <CreateResumeForm/>
+        </div>
+      </Modal>
     </DashboardLayout>
   )
 }
