@@ -1,8 +1,63 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import Input from '../../components/Inputs/Input';
+import { API_PATHS } from '../../utils/apiPaths';
+import axiosInstance from "./../../utils/axiosInstance";
 
 const CreateResumeForm = () => {
+  const [title, settitle] = useState('');
+  const [error, seterror] = useState(null);
+
+  const navigate = useNavigate();
+
+  const handleCreateResume = async (e) => {
+    e.preventDefault();
+
+    if(!title){
+      seterror("Please enter resume title");
+      return;
+    }
+
+    seterror("");
+
+    try {
+      const response = await axiosInstance.post(API_PATHS.RESUME.CREATE, {title});
+      if(response.data?._id){
+        navigate(`/resume/${response.data._id}`);
+      }
+
+    } catch (error) {
+      if(error.response && error.message.data.message) {
+        seterror(error.response.data.message);
+      } else {
+        seterror("Something went wrong. Please try again.");
+      }
+    }
+  }
+
   return (
-    <div>CreateResumeForm</div>
+    <div className='w-[90vw] md:w-[70vh] p-7 flex flex-col justify-center'>
+      <h3 className='text-lg font-semibold text-black'>Create New Resume</h3>
+      <p className='text-xs text-slate-700 mt-[5px] mb-3'>
+        Give your resume a title to get started. You can edit all details later.
+      </p>
+
+      <form onSubmit={handleCreateResume}>
+        <Input
+          value={title}
+          onChange={(e) => settitle(e.target.value)}
+          placeholder="Resume title"
+          type="text"
+        />
+
+        {error && <p className="text-red-500 text-xs pb-2.5">{error}</p>}
+
+        <button type='submit' className='btn-primary'>
+          Create Resume
+        </button>
+      </form>
+    </div>
   )
 }
 
