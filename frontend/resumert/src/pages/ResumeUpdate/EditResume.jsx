@@ -19,6 +19,11 @@ import TitleInput from '../../components/Inputs/TitleInput';
 import {useReactToPrint} from "react-to-print";
 import { useEffect } from 'react';
 import axiosInstance from '../../utils/axiosInstance';
+import StepProgress from '../../components/StepProgress';
+import ProfileInfoCard from '../../components/Cards/ProfileInfoCard';
+import ProfileInfoForm from './Forms/ProfileInfoForm';
+import ContactInfoForm from './Forms/ContactInfoForm';
+import WorkExperienceForm from './Forms/WorkExperienceForm';
 
 
 const EditResume = () => {
@@ -31,7 +36,7 @@ const EditResume = () => {
   const [baseWidth, setbaseWidth] = useState(800);
   const [openThemeSelector, setopenThemeSelector] = useState(false);
   const [openPreviewModal, setopenPreviewModal] = useState(false);
-  const [currentPage, setcurrentPage] = useState("profile-info");
+  const [currentPage, setcurrentPage] = useState("work-experience");
   const [progress, setprogress] = useState(0);
   const [resumeData, setresumeData] = useState({
     title: "",
@@ -111,15 +116,96 @@ const EditResume = () => {
 
   const goBack = () => {};
 
-  const renderForm = () => {};
+  const renderForm = () => {
+    switch(currentPage) {
+      case "profile-info":
+        return (
+          <ProfileInfoForm
+            profileData = {resumeData?.profileInfo}
+            updateSection = {(key,value) => {
+              updateSection("profileInfo", key, value);
+            }}
+            onNext={validateAndNext}
+          />
+        );
 
-  const updateSection = (section, key, value) => {};
+      case "contact-info":
+        return (
+          <ContactInfoForm
+            contactData = {resumeData?.contactInfo}
+            updateSection = {(key,value) => {
+              updateSection("contactInfo", key, value);
+            }}
+          />
+        );
 
-  const updateArrayItem = (section, index, key, value) => {};
+      case "work-experience":
+        return(
+          <WorkExperienceForm
+            contactInfo={resumeData?.workExperience}
+            updateArrayItem={(index, key, value) => {
+              updateArrayItem("workExperience", index, key, value);
+            }}
+            addArrayItem={(newItem) => {
+              addArrayItem("workExperience", newItem);
+            }}
+            removeArrayItem={(index) => {
+              removeArrayItem("workExperience", index);
+            }}
+          />
+        );
 
-  const addArrayItem = (section, newItem) => {};
+      default:
+        return null;
+    }
+  };
 
-  const removeArrayItem = (section, index) => {};
+  const updateSection = (section, key, value) => {
+    setresumeData((prevState) => ({
+      ...prevState,
+      [section]: {
+        ...prevState[section],
+        [key]: value,
+      },
+    }));
+  };
+
+  const updateArrayItem = (section, index, key, value) => {
+    setresumeData((prev) => {
+      const updatedArray = [...prev[section]];
+
+      if(key === null) {
+        updatedArray[index] = value;
+      } else {
+        updatedArray[index] = {
+          ...updatedArray[index],
+          [key]: value
+        };
+      }
+
+      return {
+        ...prev,
+        [section]: updatedArray,
+      };
+    })
+  };
+
+  const addArrayItem = (section, newItem) => {
+    setresumeData((prev) => ({
+      ...prev,
+      [section]: [...prev[section], newItem],
+    }));
+  };
+
+  const removeArrayItem = (section, index) => {
+    setresumeData((prev) => {
+      const updatedArray = [...prev[section]];
+      updatedArray.splice(index, 1);
+      return {
+        ...prev,
+        [section]: updatedArray,
+      };
+  })}
 
   const fetchResumeDetailsById = async() => {
     try {
@@ -216,6 +302,8 @@ const EditResume = () => {
 
         <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
           <div className='bg-white rounded-lg border border-purple-100 overflow-hidden'>
+
+            <StepProgress progress={0}/>
 
             {renderForm()}
 
