@@ -24,6 +24,8 @@ import ProfileInfoCard from '../../components/Cards/ProfileInfoCard';
 import ProfileInfoForm from './Forms/ProfileInfoForm';
 import ContactInfoForm from './Forms/ContactInfoForm';
 import WorkExperienceForm from './Forms/WorkExperienceForm';
+import EducationDetailsForm from './Forms/EducationDetailsForm';
+import SkillInfoForm from './Forms/SkillInfoForm';
 
 
 const EditResume = () => {
@@ -36,7 +38,7 @@ const EditResume = () => {
   const [baseWidth, setbaseWidth] = useState(800);
   const [openThemeSelector, setopenThemeSelector] = useState(false);
   const [openPreviewModal, setopenPreviewModal] = useState(false);
-  const [currentPage, setcurrentPage] = useState("work-experience");
+  const [currentPage, setcurrentPage] = useState("skills");
   const [progress, setprogress] = useState(0);
   const [resumeData, setresumeData] = useState({
     title: "",
@@ -142,7 +144,7 @@ const EditResume = () => {
       case "work-experience":
         return(
           <WorkExperienceForm
-            contactInfo={resumeData?.workExperience}
+            workExperience={resumeData?.workExperience}
             updateArrayItem={(index, key, value) => {
               updateArrayItem("workExperience", index, key, value);
             }}
@@ -154,6 +156,38 @@ const EditResume = () => {
             }}
           />
         );
+
+      case "education-info":
+        return(
+          <EducationDetailsForm
+            educationInfo={resumeData?.education}
+            updateArrayItem={(index, key, value) => {
+              updateArrayItem("education", index, key, value);
+            }}
+            addArrayItem={(newItem) => {
+              addArrayItem("education", newItem);
+            }}
+            removeArrayItem={(index) => {
+              removeArrayItem("education", index);
+            }}
+          />
+        )
+
+      case "skills":
+        return(
+          <SkillInfoForm
+            skillsInfo={resumeData?.skills}
+            updateArrayItem={(index, key, value) => {
+              updateArrayItem("skills", index, key, value);
+            }}
+            addArrayItem={(newItem) => {
+              addArrayItem("skills", newItem);
+            }}
+            removeArrayItem={(index) => {
+              removeArrayItem("skills", index);
+            }}
+          />
+      )
 
       default:
         return null;
