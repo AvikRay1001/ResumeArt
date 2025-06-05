@@ -26,6 +26,9 @@ import ContactInfoForm from './Forms/ContactInfoForm';
 import WorkExperienceForm from './Forms/WorkExperienceForm';
 import EducationDetailsForm from './Forms/EducationDetailsForm';
 import SkillInfoForm from './Forms/SkillInfoForm';
+import ProjectDetailForm from './Forms/ProjectDetailForm';
+import CertificationInfoForm from './Forms/CertificationInfoForm';
+import AdditionalInfoForm from './Forms/AdditionalInfoForm';
 
 
 const EditResume = () => {
@@ -38,7 +41,7 @@ const EditResume = () => {
   const [baseWidth, setbaseWidth] = useState(800);
   const [openThemeSelector, setopenThemeSelector] = useState(false);
   const [openPreviewModal, setopenPreviewModal] = useState(false);
-  const [currentPage, setcurrentPage] = useState("skills");
+  const [currentPage, setcurrentPage] = useState("profile-info");
   const [progress, setprogress] = useState(0);
   const [resumeData, setresumeData] = useState({
     title: "",
@@ -188,6 +191,55 @@ const EditResume = () => {
             }}
           />
       )
+
+      case "projects":
+        return(
+          <ProjectDetailForm
+            projectInfo={resumeData?.projects}
+            updateArrayItem={(index, key, value) => {
+              updateArrayItem("projects", index, key, value);
+            }}
+            addArrayItem={(newItem) => {
+              addArrayItem("projects", newItem);
+            }}
+            removeArrayItem={(index) => {
+              removeArrayItem("projects", index);
+            }}
+          />
+        )
+
+      case "certifications":
+        return(
+          <CertificationInfoForm
+            certifications = {resumeData?.certifications}
+            updateArrayItem={(index, key, value) => {
+              updateArrayItem("certifications", index, key, value);
+            }}
+            addArrayItem={(newItem) => {
+              addArrayItem("certifications", newItem);
+            }}
+            removeArrayItem={(index) => {
+              removeArrayItem("certifications", index);
+            }}
+          />
+        )
+
+      case "aditionalInfo":
+        return (
+          <AdditionalInfoForm
+            languages = {resumeData?.languages}
+            interests = {resumeData?.interests}
+            updateArrayItem={(section, index, key, value) => {
+              updateArrayItem(section, index, key, value);
+            }}
+            addArrayItem={(section, newItem) => {
+              addArrayItem(section, newItem);
+            }}
+            removeArrayItem={(section, index) => {
+              removeArrayItem(section, index);
+            }}
+          />
+        )
 
       default:
         return null;
