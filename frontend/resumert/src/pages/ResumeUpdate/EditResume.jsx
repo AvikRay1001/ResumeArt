@@ -115,11 +115,83 @@ const EditResume = () => {
   const [errorMsg, seterrorMsg] = useState("");
   const [isLoading, setisLoading] = useState(false);
 
-  const validateAndNext = (e) => {};
+  const validateAndNext = (e) => {
+    const errors = [];
 
-  const goToNextStep = () => {};
+    switch(currentPage) {
+      case "profile-info":
+        const {fullName, designation, summary} = resumeData?.profileInfo;
+        if(!fullName.trim()) errors.push("Full Name is required");
+        if(!designation.trim()) errors.push("Designation is required");
+        if(!summary.trim()) errors.push("Bio is required");
+        break;
 
-  const goBack = () => {};
+      case "contact-info":
+        const {email, phone} = resumeData?.contactInfo;
+        if(!email.trim() || !/^\S+@\S+\.\S+$/.test(email)) errors.push("Valid email address is required");
+        if(!phone.trim()) errors.push("Valid 10-digit phone number is required");
+        break;
+
+      case "work-experience":
+        resumeData.workExperience.forEach(
+          ({company, role, startDate, endDate}, index) => {
+            if(!company.trim())
+              errors.push(`Company is required in experience ${index + 1}`);
+            
+          }
+        )
+    }
+  };
+
+  const goToNextStep = () => {
+    const pages = [
+      "profile-info",
+      "contact-info",
+      "work-experience",
+      "education-info",
+      "skills",
+      "projects",
+      "certifications",
+      "additionalInfo",
+    ];
+
+    if(currentPage === "additionalInfo") setopenPreviewModal(true);
+
+    const currentIndex = pages.indexOf(currentPage);
+    if(currentIndex !== -1 && currentIndex < pages.length - 1) {
+      const nextIndex = currentIndex + 1;
+      setcurrentPage(pages[nextIndex]);
+
+      const percent = Math.round((nextIndex / (pages.length - 1)) * 100);
+      setprogress(percent);
+      windows.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  const goBack = () => {
+    const pages = [
+      "profile-info",
+      "contact-info",
+      "work-experience",
+      "education-info",
+      "skills",
+      "projects",
+      "certifications",
+      "additionalInfo",
+    ];
+
+    if(currentPage === "additionalInfo") setopenPreviewModal(true);
+
+    const currentIndex = pages.indexOf(currentPage);
+    if(currentIndex > 0) {
+      const nextIndex = currentIndex + 1;
+      setcurrentPage(pages[nextIndex]);
+
+      const percent = Math.round((nextIndex / (pages.length - 1)) * 100);
+      setprogress(percent);
+      windows.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
 
   const renderForm = () => {
     switch(currentPage) {
