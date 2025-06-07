@@ -23,7 +23,7 @@ const ProfileInfoForm = ({profileData, updateSection, onNext}) => {
                     value={profileData.fullName || ""}
                     onChange={({target}) => updateSection("fullName", target.value)}
                     label="Full Name"
-                    placeholder="Enter your full name"
+                    placeholder="John"
                     type="text"
                 />
                 
@@ -31,7 +31,7 @@ const ProfileInfoForm = ({profileData, updateSection, onNext}) => {
                     value={profileData.designation || ""}
                     onChange={({target}) => updateSection("designation", target.value)}
                     label="Designation"
-                    placeholder="Enter your designation"
+                    placeholder="Software Developer"
                     type="text"
                 />
 

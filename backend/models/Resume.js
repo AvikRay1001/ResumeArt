@@ -20,7 +20,7 @@ const ResumeSchema = new mongoose.Schema(
         },
         profileInfo: {
             profilePreviewInfo: String,
-            fillName: String,
+            fullName: String,
             designation: String,
             summary: String,
         },

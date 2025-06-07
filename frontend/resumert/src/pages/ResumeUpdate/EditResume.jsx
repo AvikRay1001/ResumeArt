@@ -29,6 +29,7 @@ import SkillInfoForm from './Forms/SkillInfoForm';
 import ProjectDetailForm from './Forms/ProjectDetailForm';
 import CertificationInfoForm from './Forms/CertificationInfoForm';
 import AdditionalInfoForm from './Forms/AdditionalInfoForm';
+import RenderResume from '../../components/ResumeTemplates/RenderResume';
 
 
 const EditResume = () => {
@@ -137,10 +138,81 @@ const EditResume = () => {
           ({company, role, startDate, endDate}, index) => {
             if(!company.trim())
               errors.push(`Company is required in experience ${index + 1}`);
-            
+            if(!role.trim())
+              errors.push(`Role is required in experience ${index + 1}`);
+            if(!startDate || !endDate)
+              errors.push(`Start and end date is required in experience ${index + 1}`);
           }
-        )
+        );
+        break;
+
+      case "education-info":
+        resumeData.education.forEach(
+          ({degree, institution, startDate, endDate}, index) => {
+            if(!degree.trim())
+              errors.push(`Degree is required in education ${index + 1}`);
+            if(!institution.trim())
+              errors.push(`Institution is required in education ${index + 1}`);
+            if(!startDate || !endDate)
+              errors.push(`Start and end date is required in education ${index + 1}`);
+          }
+        );
+        break;
+
+      case "skills":
+        resumeData.skills.forEach(({name, progress}, index) => {
+          if(!name.trim())
+            errors.push(`Degree is required in skill ${index + 1}`);
+          if(progress < 1 || progress > 100)
+            errors.push(`Skill progress must be between 1 and 100 in skill ${index + 1}`);
+        });
+        break;
+
+      case "projects":
+        resumeData.projects.forEach(({title, description}, index) => {
+          if(!title.trim())
+            errors.push(`Title is required in project ${index + 1}`);
+          if(!description.trim())
+            errors.push(`Description is required in project ${index + 1}`);
+        });
+        break;
+
+      case "certifications":
+        resumeData.certifications.forEach(({title, issuer}, index) => {
+          if(!title.trim())
+            errors.push(`Title is required in certification ${index + 1}`);
+          if(!issuer.trim())
+            errors.push(`Issuer is required in certification ${index + 1}`);
+        });
+        break;
+
+      case "additionalInfo":
+        if(
+          resumeData.languages.length === 0 ||
+          !resumeData.languages[0].name?.trim()
+        ) {
+          errors.push("At least one language is required");
+        }
+
+        if(
+          resumeData.interests.length === 0 ||
+          !resumeData.interests[0]?.trim()
+        ) {
+          errors.push("At least one interest is required");
+        }
+        break;
+
+      default:
+        break;
     }
+
+    if(errors.length > 0){
+      seterrorMsg(errors.join(", "));
+      return;
+    }
+
+    seterrorMsg("");
+    goToNextStep();
   };
 
   const goToNextStep = () => {
@@ -296,7 +368,7 @@ const EditResume = () => {
           />
         )
 
-      case "aditionalInfo":
+      case "additionalInfo":
         return (
           <AdditionalInfoForm
             languages = {resumeData?.languages}
@@ -312,6 +384,7 @@ const EditResume = () => {
             }}
           />
         )
+        
 
       default:
         return null;
@@ -402,7 +475,11 @@ const EditResume = () => {
 
   const reactToPrintFn = useReactToPrint({ contentRef: resumeDownloadRef});
 
-  const updateBaseWidth = () => {};
+  const updateBaseWidth = () => {
+    if(resumeRef.current){
+      setbaseWidth(resumeRef.current.offsetWidth);
+    }
+  };
 
   useEffect(() => {
     updateBaseWidth();
@@ -511,7 +588,12 @@ const EditResume = () => {
           </div>
 
           <div ref={resumeRef} className='h-[100vh]'>
-                  
+               <RenderResume
+                  templateId={resumeData?.template?.theme || ""}
+                  resumeData={resumeData}
+                  colorPalette={resumeData?.template?.colorPalette || []}
+                  containerWidth={baseWidth}
+               />   
           </div>
         </div>
       </div>
