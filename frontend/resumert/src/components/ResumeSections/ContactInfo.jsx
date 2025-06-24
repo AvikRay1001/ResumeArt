@@ -11,7 +11,7 @@ const ContactInfo = ({icon, iconBG, value}) => {
         </div>
 
 
-        <p className='flex-1 text-[12px] font-medium break-all'>{value}</p>
+        <p className='flex-1 text-[14px] font-medium break-all'>{value}</p>
     </div>
   )
 }

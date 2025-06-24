@@ -10,6 +10,7 @@ import WorkExperienceForm from "./../../pages/ResumeUpdate/Forms/WorkExperienceF
 import WorkExperience from "../ResumeSections/WorkExperience";
 import ProjectInfo from "../ResumeSections/ProjectInfo";
 import SkillSection from "../ResumeSections/SkillSection";
+import CertificationInfo from "../ResumeSections/CertificationInfo";
 
 const DEFAULT_THEME = ["#EBFDFF", "#A1F4FD", "#CEFAFE", "#00B8D8", "#4A5565"];
 
@@ -20,7 +21,7 @@ const Title = ({ text, color }) => {
         className="absolute bottom-0 left-0 w-full h-2"
         style={{ backgroundColor: color }}
       ></span>
-      <h2 className={`relative text-sm font-bold`}>{text}</h2>
+      <h2 className={`relative text-md font-bold`}>{text}</h2>
     </div>
   );
 };
@@ -87,10 +88,10 @@ const TemplateOne = ({ resumeData, colorPalette, containerWidth }) => {
               </div>
             )}
 
-            <h2 className="text-xl font-bold mt-3">
+            <h2 className="text-2xl font-bold mt-3">
               {resumeData.profileInfo.fullName}
             </h2>
-            <p className="text-sm text-center">
+            <p className="text-xl text-center">
               {resumeData.profileInfo.designation}
             </p>
           </div>
@@ -132,11 +133,11 @@ const TemplateOne = ({ resumeData, colorPalette, containerWidth }) => {
               )}
 
 
-              <ContactInfo
+              {resumeData.contactInfo.website && <ContactInfo
                 icon={<LuRss/>}
                 iconBG={themeColors[2]}
                 value={resumeData.contactInfo.website}
-              />
+              />}
             </div>
 
             <div className="mt-5">
@@ -215,6 +216,41 @@ const TemplateOne = ({ resumeData, colorPalette, containerWidth }) => {
               bgColor={themeColors[2]}
             />
           </div>
+
+          <div className="mt-4">
+            <Title text="Certifications" color={themeColors[1]}/>
+
+            <div className="grid grid-cols-2 gap-2">
+              {resumeData.certifications.map((data, index) => (
+                <CertificationInfo
+                  key={`cert_${index}`}
+                  title={data.title}
+                  issuer={data.issuer}
+                  year={data.year}
+                  bgColor={themeColors[2]}
+                />
+              ))}
+            </div>
+          </div>
+
+          {resumeData.interests.length > 0 && resumeData.interests[0] != "" && (<div className="mt-4">
+              <Title text="Interests" color={themeColors[1]}/>
+
+              <div className="flex items-center flex-wrap gap-3 mt-4">
+                {resumeData.interests.map((interest, index) => {
+                  if(!interest) return null;
+                  return (
+                    <div
+                      key={`interest_${index}`}
+                      className="text-[10px] font-medium py-1 px-3 rounded-lg"
+                      style={{ backgroundColor: themeColors[2] }}
+                    >
+                      {interest}
+                    </div>
+                  )
+                })}
+              </div>
+          </div>)}
         </div>
       </div>
     </div>

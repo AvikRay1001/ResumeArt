@@ -30,7 +30,7 @@ const ContactInfoForm = ({contactData, updateSection}) => {
             <Input
                 label="Phone Number"
                 placeholder="Enter your phone number"
-                type="tel"
+                type="telephone"
                 value={contactData.phone || ""}
                 onChange={({target}) => updateSection("phone", target.value)}
             />
@@ -56,8 +56,8 @@ const ContactInfoForm = ({contactData, updateSection}) => {
                     label="Portfolio / Website"
                     placeholder="https://yourwebsite.com"
                     type="url"
-                    value={contactData.portfolio || ""}
-                    onChange={({target}) => updateSection("portfolio", target.value)}
+                    value={contactData.website || ""}
+                    onChange={({target}) => updateSection("website", target.value)}
                 />
             </div>
         </div>

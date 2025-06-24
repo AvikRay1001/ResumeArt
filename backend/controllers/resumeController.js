@@ -9,7 +9,7 @@ const createResume = async(req,res) => {
         const defaultResume = {
             profileInfo: {
                 profileImg: null,
-                previewUrl: "",
+                profilePreviewUrl: "",
                 fullName: "",
                 designation: "",
                 summary: "",
@@ -109,6 +109,7 @@ const getResumeById = async(req,res) => {
 };
 
 
+
 const updateResume = async(req,res) => {
     try {
        const resume = await Resume.findOne({
@@ -120,6 +121,8 @@ const updateResume = async(req,res) => {
         return res.status(404).json({message: "Resume not found or unauthorized"});
        }
 
+       console.log(req.body);
+
        Object.assign(resume, req.body);
        
        const savedResume = await resume.save();
@@ -130,6 +133,38 @@ const updateResume = async(req,res) => {
         res.status(500).json({message: "Failed to create resume", error: error.message})
     }
 };
+
+
+// const updateResume = async(req, res) => {
+//     try {
+//         console.log("Request body:", req.body);
+
+//         const updatedResume = await Resume.findOneAndUpdate(
+//             {
+//                 _id: req.params.id,
+//                 userId: req.user._id,
+//             },
+//             { $set: req.body },
+//             { 
+//                 new: true, // Return the updated document
+//                 runValidators: true // Run schema validators
+//             }
+//         );
+
+//         if (!updatedResume) {
+//             return res.status(404).json({message: "Resume not found or unauthorized"});
+//         }
+
+//         console.log("Updated resume successfully");
+        
+//         res.json(updatedResume);
+
+//     } catch (error) {
+//         console.error("Update error:", error);
+//         res.status(500).json({message: "Failed to update resume", error: error.message});
+//     }
+// };
+
 
 
 const deleteResume = async(req,res) => {
@@ -144,7 +179,7 @@ const deleteResume = async(req,res) => {
        }
 
        const uploadFolder = path.join(__dirname, "..", "uploads");
-       const baseUrl = `${req.protocol}://${req.get("host")}/`;
+       const baseUrl = `${req.protocol}://${req.get("host")}`;
 
        if(resume.thumbnailLink){
         const oldThumbnail = path.join(uploadFolder, path.basename(resume.thumbnailLink));
@@ -152,7 +187,7 @@ const deleteResume = async(req,res) => {
        }
 
        if(resume.profileInfo?.profilePreviewUrl){
-        const oldProfile = path.join(uploadFolder, path.basemname(resume.profileInfo.profilePreviewUrl));
+        const oldProfile = path.join(uploadFolder, path.basename(resume.profileInfo.profilePreviewUrl));
         if(fs.existsSync(oldProfile)) fs.unlinkSync(oldProfile);
        }
 

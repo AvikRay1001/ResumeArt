@@ -12,6 +12,8 @@ const ProfilePhotoSelector = ({ image, setImage, preview, setPreview }) => {
       setImage(file);
 
       const preview = URL.createObjectURL(file);
+      console.log(preview);
+      console.log(file);
       if (setPreview) {
         setPreview(preview);
       }
@@ -59,7 +61,7 @@ const ProfilePhotoSelector = ({ image, setImage, preview, setPreview }) => {
             <img 
                 src={preview || previewUrl}
                 className="w-20 h-20 rounded-full object-cover" 
-                alt="prifle photo" 
+                alt="profle photo" 
             />
             <button
                 type="button"
