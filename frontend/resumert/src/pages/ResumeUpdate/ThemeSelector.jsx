@@ -6,6 +6,8 @@ import {
 } from '../../utils/data'
 import { LuCircleCheckBig } from 'react-icons/lu'
 import Tabs from '../../components/Tabs';
+import { useRef, useState, useEffect } from 'react';
+import TemplateCard from '../../components/Cards/TemplateCard';
 
 const TAB_DATA = [{ label: "Templates"}, {label: "Color Palettes"}];
 
@@ -56,25 +58,47 @@ const ThemeSelector = ({
 
     
   return (
-    <div>
-        <div>
+    <div className='container mx-auto px-2 md:px-0'>
+        <div className='flex items-center justify-between mb-5 mt-2'>
             <Tabs tabs={TAB_DATA} activeTab={tabValue} setActiveTab={settabValue}/>
 
             <button
-                className=''
+                className='btn-small-light'
                 onClick={() => handleThemeSelectiion()}
             >
-                <LuCircleCheckBig/>
+                <LuCircleCheckBig className='text-[16px]'/> Done
             </button>
         </div>
 
-        <div>
-            <div>
-                <div>
+        <div className='grid grid-cols-12 gap-5'>
+            <div className='col-span-12 md:col-span-5 bg-white'>
+                <div className='grid grid-cols-2 gap-5 max-h-[80vh] overflow-scroll custom-scrollbar'>
+                    {tabValue === 'Templates' && 
+                        resumeTemplates.map((template, index) => (
+                            <TemplateCard
+                                key={`templates_${index}`}
+                                thumbnailImg={template.thumbnailImg}
+                                isSelected={selectedTemplate?.index === index}
+                                onSelect={() =>
+                                    setselectedTemplate({theme: template.id, index})
+                                }
+                            />
+                        ))
+                    }
 
+
+                    {tabValue === 'Color Palettes' &&
+                    themeColorPalette.themeOne.map((colors, index) => (
+                        <ColorPalette
+                            key={`palette_${index}`}
+                            colors={colors}
+                            isSelected={selectedColorPalette?.index === index}
+                            onSelect={() => setselectedColorPalette({colors, index})}
+                        />
+                    ))}
                 </div>
             </div>
-            <div className='' ref={resumeRef}>
+            <div className='col-span-12 md:col-span-7 bg-white -mt-3' ref={resumeRef}>
 
             </div>
         </div>
@@ -82,4 +106,25 @@ const ThemeSelector = ({
   )
 }
 
-export default ThemeSelector
+export default ThemeSelector;
+
+
+
+const ColorPalette = ({colors, isSelected, onSelect}) => {
+  return (
+    <div
+        className={`h-28 bg-purple-50 flex rounded-lg overflow-hidden
+        ${isSelected ? "border-slate-500 border-2": "border-none"}`}
+        onClick={onSelect}
+    >
+        {colors.map((color, index) => (
+            <div
+                key={`color_${index}`}
+                className='flex-1'
+                style={{backgroundColor: colors[index]}}
+                onClick={onSelect}
+            />
+        ))}
+    </div>
+  )
+}
