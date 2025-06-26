@@ -8,6 +8,7 @@ import { LuCircleCheckBig } from 'react-icons/lu'
 import Tabs from '../../components/Tabs';
 import { useRef, useState, useEffect } from 'react';
 import TemplateCard from '../../components/Cards/TemplateCard';
+import RenderResume from '../../components/ResumeTemplates/RenderResume';
 
 const TAB_DATA = [{ label: "Templates"}, {label: "Color Palettes"}];
 
@@ -99,7 +100,12 @@ const ThemeSelector = ({
                 </div>
             </div>
             <div className='col-span-12 md:col-span-7 bg-white -mt-3' ref={resumeRef}>
-
+                    <RenderResume
+                        templateId={selectedTemplate?.theme || ""}
+                        resumeData={resumeData || DUMMY_RESUME_DATA}
+                        baseWidth={baseWidth}
+                        colorPalette={selectedColorPalette?.colors || []}
+                    />
             </div>
         </div>
     </div>

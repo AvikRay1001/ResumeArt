@@ -106,7 +106,7 @@ export const DUMMY_RESUME_DATA = {
       "liveDemo": "https://tasky.app"
     }
   ],
-  "certification": [
+  "certifications": [
     {
       "title": "AWS Certified Developer",
       "issuer": "Amazon Web Services",
