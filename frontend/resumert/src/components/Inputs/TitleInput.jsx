@@ -15,7 +15,7 @@ const TitleInput = ({title, setTitle}) => {
                     placeholder='Resume Title'
                     className='text-sm md:text-[17px] bg-transparent outline-none text-black font-semibold border-b border-gray-300 pb-1'
                     value={title}
-                    onChange={(target) => setTitle(target.value)}
+                    onChange={(e) => setTitle(e.target.value)}
                 />
 
                 <button className='cursor-pointer'>

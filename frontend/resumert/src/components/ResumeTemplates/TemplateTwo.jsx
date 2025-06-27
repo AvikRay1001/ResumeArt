@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { LuGithub, LuMail, LuMapPin, LuMapPinHouse, LuPhone, LuRss } from "react-icons/lu";
+import { LuGithub, LuMail, LuMapPin, LuMapPinHouse, LuPhone, LuRss, LuUser } from "react-icons/lu";
 import { useState, useEffect } from "react";
 import ContactInfo from "../ResumeSections/ContactInfo";
 import {RiLinkedinLine} from "react-icons/ri"
@@ -58,14 +58,77 @@ const TemplateTwo = ({ resumeData, colorPalette, containerWidth }) => {
                 style={{ backgroundColor: themeColors[1] }}
             >
                 {resumeData.profileInfo.profilePreviewUrl ? (
-                    
+                    <img
+                        src={resumeData.profileInfo.peofilePreviewUrl}
+                        className="w-[140px] h-[140px] rounded-2xl"
+                    />
                 ): (
-                    
+                    <div
+                        className="w-[140px] h-[140px] flex items-center justify-center text-5xl rounded-full"
+                        style={{ color: themeColors[4] }}
+                    >
+                      <LuUser/>
+                    </div>
                 )}
+            </div>
+
+            <div>
+              <div className="grid grid-cols-12 gap-2 items-center">
+                <div className="col-span-6">
+                  <h2 className="text-2xl font-bold">
+                    {resumeData.profileInfo.fullName}
+                  </h2>
+                  <p className="text-[15px] font-semibold mb-2">
+                    {resumeData.profileInfo.designation}
+                  </p>
+
+                  <ContactInfo
+                    icon={<LuMapPinHouse/>}
+                    iconBG={themeColors[2]}
+                    value={resumeData.contactInfo.location}
+                  />
+              
+                </div>
+
+                <div className="col-span-6 flex flex-col gap-5 mt-2">
+                  <ContactInfo
+                    icon={<LuMail/>}
+                    iconBG={themeColors[2]}
+                    value={resumeData.contactInfo.email}
+                  />
+
+                  <ContactInfo
+                    icon={<LuPhone/>}
+                    iconBG={themeColors[2]}
+                    value={resumeData.contactInfo.phone}
+                  />
+                </div>
+
+                <div className="col-span-6"> 
+                  {resumeData.contactInfo.linkedin && (
+                    <ContactInfo
+                      icon={<RiLinkedinLine/>}
+                      iconBG={themeColors[2]}
+                      value={resumeData.contactInfo.linkedin}
+                    />
+                  )}
+                </div>
+
+                <div className="col-span-6">
+                  <ContactInfo
+                    icon={<LuRss/>}
+                    iconBG={themeColors[2]}
+                    value={resumeData.contactInfo.website}
+                  />
+                </div>
+
+                
+              </div>
             </div>
         </div>
       </div>
 
+      
 
       <div className="mx-10 pb-5">
           <div>

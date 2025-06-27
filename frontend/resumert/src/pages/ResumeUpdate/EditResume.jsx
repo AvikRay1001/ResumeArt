@@ -140,7 +140,6 @@ const EditResume = () => {
         if (!phone.trim() || !/^\d{10}$/.test(phone.trim())) {
           errors.push("Valid 10-digit phone number is required");
         }
-
         break;
 
       case "work-experience":
@@ -230,6 +229,7 @@ const EditResume = () => {
     seterrorMsg("");
     goToNextStep();
   };
+
 
   const goToNextStep = () => {
     const pages = [
@@ -558,7 +558,18 @@ const EditResume = () => {
     }
   };
 
-  const handleDeleteResume = async () => {};
+  const handleDeleteResume = async () => {
+    try{
+      setisLoading(true);
+      const response = await axiosInstance.delete(API_PATHS.RESUME.DELETE(resumeId));
+      toast.success("Resume deleted successfully");
+      navigate("/dashboard");
+    } catch(err) {
+      console.error("Error capturing image:",err);
+    } finally {
+      setisLoading(false);
+    }
+  };
 
   const reactToPrintFn = useReactToPrint({ contentRef: resumeDownloadRef });
 
@@ -700,6 +711,27 @@ const EditResume = () => {
           />
         </div>
       </Modal>
+
+
+      <Modal
+        isOpen={openPreviewModal}
+        onClose={() => setopenPreviewModal(false)}
+        title={resumeData.title}
+        showActionBtn
+        actionBtnText="Download"
+        actionBtnIcon={<LuDownload className="text-[16px]"/>}
+        onActionClick={() => reactToPrintFn()} 
+      >
+        <div ref={resumeDownloadRef} className="w-[98vw] h-[90vh]">
+            <RenderResume
+              templateId={resumeData?.template?.theme || ""}
+              resumeData={resumeData}
+              colorPalette={resumeData?.template?.colorPalette || []}
+            />
+        </div>
+      </Modal>
+
+
     </DashboardLayout>
   );
 };
