@@ -1,13 +1,11 @@
-import React from 'react'
-import HERO_IMG from '../assets/heroImg4.png'
+import { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Login from './Auth/Login'
-import Signup from './Auth/Signup'
-import { useState } from 'react'
+import HERO_IMG from '../assets/heroImg4.png'
+import ProfileInfoCard from '../components/Cards/ProfileInfoCard'
 import Modal from '../components/Modal'
 import { UserContext } from '../context/userContext'
-import ProfileInfoCard from '../components/Cards/ProfileInfoCard'
-import { useContext } from 'react'
+import Login from './Auth/Login'
+import Signup from './Auth/Signup'
 
 const LandingPage = () => {
   const {user} = useContext(UserContext);
