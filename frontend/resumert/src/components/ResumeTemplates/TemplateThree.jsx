@@ -52,24 +52,17 @@ const TemplateThree = ({ resumeData, colorPalette, containerWidth }) => {
     >
 
       <div className="flex items-start gap-5 px-2 mb-5">
-        <div
-            className="w-[100px] h-[100px] max-w-[105px] max-h-[105px] rounded-2xl flex items-center justify-center"
-            style={{ backgroundColor: themeColors[1] }}
-        >
-            {resumeData.profileInfo.profilePreviewUrl ? (
+        {resumeData.profileInfo.profilePreviewUrl && (
+              <div
+                className="w-[100px] h-[100px] max-w-[110px] max-h-[110px] rounded-full flex items-center justify-center"
+                style={{ backgroundColor: themeColors[1] }}
+              >
                 <img
-                    src={resumeData.profileInfo.profilePreviewUrl}
-                    className="w-[90px] h-[90px] rounded-2xl"
+                  src={resumeData.profileInfo.profilePreviewUrl}
+                  className="w-[90px] h-[90px] rounded-full"
                 />
-            ) : (
-                <div
-                    className="w-[90px] h-[90px] flex items-center justify-center text-5xl rounded-full"
-                    style={{color: themeColors[4]}}
-                >
-                    <LuUser/>
-                </div>
+              </div>
             )}
-        </div>
 
 
         <div>

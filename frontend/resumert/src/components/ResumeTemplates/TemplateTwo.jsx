@@ -53,24 +53,17 @@ const TemplateTwo = ({ resumeData, colorPalette, containerWidth }) => {
 
       <div className="px-10 pt-10 pb-5">
         <div className="flex items-center gap-5 mb-5">
-            <div
-                className="w-[140px] h-[140px] max-w-[140px] max-h-[140px] rounded-2xl flex items-center justify-center"
+            {resumeData.profileInfo.profilePreviewUrl && (
+              <div
+                className="w-[100px] h-[100px] max-w-[110px] max-h-[110px] rounded-full flex items-center justify-center"
                 style={{ backgroundColor: themeColors[1] }}
-            >
-                {resumeData.profileInfo.profilePreviewUrl ? (
-                    <img
-                        src={resumeData.profileInfo.peofilePreviewUrl}
-                        className="w-[140px] h-[140px] rounded-2xl"
-                    />
-                ): (
-                    <div
-                        className="w-[140px] h-[140px] flex items-center justify-center text-5xl rounded-full"
-                        style={{ color: themeColors[4] }}
-                    >
-                      <LuUser/>
-                    </div>
-                )}
-            </div>
+              >
+                <img
+                  src={resumeData.profileInfo.profilePreviewUrl}
+                  className="w-[90px] h-[90px] rounded-full"
+                />
+              </div>
+            )}
 
             <div>
               <div className="grid grid-cols-12 gap-2 items-center">
