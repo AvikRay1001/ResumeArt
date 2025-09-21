@@ -1,14 +1,12 @@
-import React from 'react'
-import { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { validateEmail } from '../../utils/helper'
 import Input from '../../components/Inputs/Input'
 import ProfilePhotoSelector from '../../components/Inputs/ProfilePhotoSelector'
-import axiosInstance from '../../utils/axiosInstance'
 import { UserContext } from '../../context/userContext'
-import { useContext } from 'react'
 import { API_PATHS } from '../../utils/apiPaths'
-import {uploadImage} from "../../utils/uploadImage"
+import axiosInstance from '../../utils/axiosInstance'
+import { validateEmail } from '../../utils/helper'
+import { uploadImage } from "../../utils/uploadImage"
 
 const SignUp = ({setcurrentPage}) => {
   const [profilePic, setprofilePic] = useState(null);
