@@ -1,6 +1,6 @@
 <div align="center">
-  <!-- TODO: Replace with actual hero image -->
-  <img src="https://via.placeholder.com/1000x300?text=ResumeArt+Hero+Banner" alt="ResumeArt Hero Banner" width="100%">
+  <img src="./frontend/resumert/public/logo.png" alt="ResumeArt Logo" width="150">
+  <br />
 
   # ResumeArt
 
